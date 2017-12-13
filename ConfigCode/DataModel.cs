@@ -16,7 +16,9 @@ namespace ConfigCode
         public static Dictionary<string, int> sourceDt_row_num = new Dictionary<string, int>();
         public static Dictionary<string, int> offset = new Dictionary<string, int>();
         public static Dictionary<string, int> bitlength = new Dictionary<string, int>();
+        public static Dictionary<string, double> precision = new Dictionary<string, double>();
         public int[] bitlengths;
+        public double[] precisions;
         public string company = "";
         public int voltageCount = 0;
         public int temperatureCount = 0;
@@ -191,6 +193,7 @@ namespace ConfigCode
         public void VehicleData()
         {
             bitlengths =new int[] { 0,8,8,8,16,32,16,16,8,8,8,1,1,16,8,8};
+            precisions = new double[] { 0, 1, 1, 1, 0.1, 0.1, 0.1, 0.1, 1, 1, 1, 1, 1, 1, 1, 1 };
             int i = 0;
             String name;
             DataRow dr;
@@ -208,6 +211,7 @@ namespace ConfigCode
                 if (!bitlength.ContainsKey(name))
                 {
                     bitlength.Add(name, bitlengths[i]);
+                    precision.Add(name, precisions[i]);
                 }
                 i++;
                 dr = dt.NewRow();
@@ -253,6 +257,7 @@ namespace ConfigCode
         public void EngineData()
         {
             bitlengths = new int[] { 0, 8, 16, 16 };
+            precisions = new double[] { 0, 1, 1, 0.01 };
             int i = 0;
             String name;
             DataRow dr;
@@ -262,6 +267,7 @@ namespace ConfigCode
                 if (!bitlength.ContainsKey(name))
                 {
                     bitlength.Add(name, bitlengths[i]);
+                    precision.Add(name, precisions[i]);
                 }
                 i++;
                 dr = dt.NewRow();
@@ -300,6 +306,7 @@ namespace ConfigCode
         public void ExtremaData()
         {
             bitlengths = new int[] { 0, 8, 8, 16,8,8,16,8,8,8,8,8,8 };
+            precisions = new double[] { 0, 1, 1,0.001,1, 1, 0.001,1, 1, 1, 1, 1, 1 };
             int i = 0;
             String name;
             DataRow dr;
@@ -309,6 +316,7 @@ namespace ConfigCode
                 if (!bitlength.ContainsKey(name))
                 {
                     bitlength.Add(name, bitlengths[i]);
+                    precision.Add(name, precisions[i]);
                 }
                 i++;
                 dr = dt.NewRow();
@@ -346,6 +354,7 @@ namespace ConfigCode
         public void DrivemotorData()
         {
             bitlengths = new int[] { 0, 8,8, 8, 8,16,16,8,16,16 };
+            precisions = new double[] { 0, 1, 1, 1, 1, 1,1,1, 0.1, 0.1};
             int i = 0;
             String name;
             DataRow dr;
@@ -355,6 +364,7 @@ namespace ConfigCode
                 if (!bitlength.ContainsKey(name))
                 {
                     bitlength.Add(name, bitlengths[i]);
+                    precision.Add(name, precisions[i]);
                 }
                 i++;
                 dr = dt.NewRow();
@@ -391,6 +401,7 @@ namespace ConfigCode
         public void FuelcellData()
         {
             bitlengths = new int[] { 0, 16, 16, 16, 16, 8, 16, 8, 16 ,8,16,8,8};
+            precisions = new double[] { 0, 0.1,0.1, 0.01, 1, 1, 0.1, 1,1,1,0.1,1,1 };
             int i = 0;
             String name;
             DataRow dr;
@@ -404,6 +415,7 @@ namespace ConfigCode
                 if (!bitlength.ContainsKey(name))
                 {
                     bitlength.Add(name, bitlengths[i]);
+                    precision.Add(name, precisions[i]);
                 }
                 i++;
                 dr = dt.NewRow();
@@ -442,6 +454,7 @@ namespace ConfigCode
         public void AlarmData()
         {
             bitlengths = new int[] { 0, 8,1 };
+            precisions = new double[] { 0, 1, 1 };
             int i = 0;
             String name;
             DataRow dr;
@@ -463,6 +476,7 @@ namespace ConfigCode
                 if (!bitlength.ContainsKey(name))
                 {
                     bitlength.Add(name, bitlengths[i]);
+                    precision.Add(name, precisions[i]);
                 }
                 i++;
      
@@ -500,6 +514,7 @@ namespace ConfigCode
         public void VoltageData()
         {
             bitlengths = new int[] { 0, 16, 16,16,16 };
+            precisions = new double[] { 0, 0.1, 0.1 ,1,0.001};
             int j = 0;
             String name;
             DataRow dr;
@@ -519,6 +534,7 @@ namespace ConfigCode
                         if (!bitlength.ContainsKey(vname))
                         {
                             bitlength.Add(vname, bitlengths[j]);
+                            precision.Add(name, precisions[i]);
                         }
                         j++;
                         dr = dt.NewRow();
@@ -537,6 +553,7 @@ namespace ConfigCode
                     if (!bitlength.ContainsKey(name))
                     {
                         bitlength.Add(name, bitlengths[j]);
+                        precision.Add(name, precisions[j]);
                     }
                     j++;
                     dr = dt.NewRow();
@@ -582,6 +599,7 @@ namespace ConfigCode
         public void TemperatureData()
         {
             bitlengths = new int[] { 0, 16, 8 };
+            precisions = new double[] { 0, 1,1 };
             int j = 0;
             String name;
             DataRow dr;
@@ -604,6 +622,7 @@ namespace ConfigCode
                         if (!bitlength.ContainsKey(tname))
                         {
                             bitlength.Add(tname, bitlengths[j]);
+                            precision.Add(name, precisions[j]);
                         }
                         j++;
                         dr = dt.NewRow();
@@ -622,6 +641,7 @@ namespace ConfigCode
                     if (!bitlength.ContainsKey(name))
                     {
                         bitlength.Add(name, bitlengths[j]);
+                        precision.Add(name, precisions[j]);
                     }
                     j++;
                     dr = dt.NewRow();
@@ -753,7 +773,7 @@ namespace ConfigCode
                     string str = dt.Rows[i][name].ToString().Replace(" ",null);
                     if (name.Equals("偏移量"))
                     {
-                        int n_offset = 0;
+                        //int n_offset = 0;
                         int p_offset = 0;
                         try
                         {
@@ -766,17 +786,17 @@ namespace ConfigCode
 
                         }
 
-                        int r_offset = 0;
-                        if (offset.ContainsKey((string)dt.Rows[i]["数据项目名称"]))
-                        {
-                            n_offset = offset[(string)dt.Rows[i]["数据项目名称"]];
-                            r_offset = n_offset - p_offset;
-                        }
-                        else
-                        {
-                            r_offset = 0 - p_offset;
+                        //int r_offset = 0;
+                        //if (offset.ContainsKey((string)dt.Rows[i]["数据项目名称"]))
+                        //{
+                        //    n_offset = offset[(string)dt.Rows[i]["数据项目名称"]];
+                        //    r_offset = n_offset - p_offset;
+                        //}
+                        //else
+                        //{
+                        //    r_offset = 0 - p_offset;
 
-                        }
+                        //}
                         CANID = dt.Rows[i]["CANID"].ToString();
                         if (CANID == "0" || CANID == "" || CANID == null)
                         {
@@ -785,7 +805,7 @@ namespace ConfigCode
                         }
                         else {
 
-                            str = Convert.ToString(r_offset);
+                            str = Convert.ToString(p_offset);
                         }
                 
                         str = "              " + str;
