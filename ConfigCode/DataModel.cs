@@ -176,8 +176,8 @@ namespace ConfigCode
             
             offset.Add("总电流", -1000);
             offset.Add("驱动电机控制器温度", -40);
-            offset.Add("驱动电机控制器转速", -20000);
-            offset.Add("驱动电机控制器转矩", -20000);
+            offset.Add("驱动电机转速", -20000);
+            offset.Add("驱动电机转矩", -20000);
             offset.Add("驱动电机温度", -40);
             offset.Add("电机控制器直流母线电流", -1000);
             offset.Add("最高温度值", -40);
@@ -535,7 +535,7 @@ namespace ConfigCode
                         if (!bitlength.ContainsKey(vname))
                         {
                             bitlength.Add(vname, bitlengths[j]);
-                            precision.Add(name, precisions[i]);
+                            precision.Add(vname, precisions[i]);
                         }
                         j++;
                         dr = dt.NewRow();
@@ -623,7 +623,7 @@ namespace ConfigCode
                         if (!bitlength.ContainsKey(tname))
                         {
                             bitlength.Add(tname, bitlengths[j]);
-                            precision.Add(name, precisions[j]);
+                            precision.Add(tname, precisions[j]);
                         }
                         j++;
                         dr = dt.NewRow();
@@ -765,6 +765,7 @@ namespace ConfigCode
                 foreach (int item in Enum.GetValues(typeof(header)))
                 {
                     String name = Enum.GetName(typeof(header), item);
+                    String DataName = (string)dt.Rows[i]["数据项目名称"];
                     if (name.Equals("数据项目名称"))
                     {
                         //dataCount = 0;
@@ -776,6 +777,7 @@ namespace ConfigCode
                     string str = dt.Rows[i][name].ToString().Replace(" ",null);
                     if (name.Equals("偏移量"))
                     {
+                        double r_offset=0;
                         //int n_offset = 0;
                         int p_offset = 0;
                         try
@@ -788,7 +790,24 @@ namespace ConfigCode
                             p_offset = 0;
 
                         }
+                        if (p_offset != 0) {
+                            int n_offset = 0;
 
+                            double p_precision= Convert.ToDouble(dt.Rows[i]["精度"]);
+                            if (offset.ContainsKey(DataName))
+                            {
+
+                                 n_offset = offset[DataName];
+
+                            }
+                            else {
+
+                                n_offset = 0;
+                            }
+                           
+                            double n_precision = precision[DataName];
+                             r_offset = p_offset / p_precision - n_offset / n_precision;
+                        }
                         //int r_offset = 0;
                         //if (offset.ContainsKey((string)dt.Rows[i]["数据项目名称"]))
                         //{
@@ -800,6 +819,7 @@ namespace ConfigCode
                         //    r_offset = 0 - p_offset;
 
                         //}
+                        //str = Convert.ToString(r_offset);
                         CANID = dt.Rows[i]["CANID"].ToString();
                         if (CANID == "0" || CANID == "" || CANID == null)
                         {
@@ -808,7 +828,13 @@ namespace ConfigCode
                         }
                         else {
 
-                            str = Convert.ToString(p_offset);
+                            str = Convert.ToString(r_offset);
+
+                            
+
+
+
+                            //str = Convert.ToString(r_offset);
                         }
                 
                         str = "              " + str;
