@@ -123,6 +123,7 @@ namespace ConfigCode
             DataModel.bitlength.Clear();
             DataModel.offset.Clear();
             DataModel.sourceDt_row_num.Clear();
+            DataModel.precision.Clear();
             SetDefaultText();
             for (int i = 0; i < checkedListBox1.Items.Count; i++)
             {
@@ -285,12 +286,13 @@ namespace ConfigCode
 
             this.dataGridView1.Columns[0].Width = (int)(this.dataGridView1.Width * 0.20);
             this.dataGridView1.Columns[1].Width = (int)(this.dataGridView1.Width * 0.15);
-            this.dataGridView1.Columns[2].Width = (int)(this.dataGridView1.Width * 0.085);
-            this.dataGridView1.Columns[3].Width = (int)(this.dataGridView1.Width * 0.07);
-            this.dataGridView1.Columns[4].Width = (int)(this.dataGridView1.Width * 0.07);
-            this.dataGridView1.Columns[5].Width = (int)(this.dataGridView1.Width * 0.175);
+            this.dataGridView1.Columns[2].Width = (int)(this.dataGridView1.Width * 0.06);
+            this.dataGridView1.Columns[3].Width = (int)(this.dataGridView1.Width * 0.06);
+            this.dataGridView1.Columns[4].Width = (int)(this.dataGridView1.Width * 0.06);
+            this.dataGridView1.Columns[5].Width = (int)(this.dataGridView1.Width * 0.17);
             this.dataGridView1.Columns[6].Width = (int)(this.dataGridView1.Width * 0.10);
-            this.dataGridView1.Columns[7].Width = (int)(this.dataGridView1.Width * 0.15);
+            this.dataGridView1.Columns[7].Width = (int)(this.dataGridView1.Width * 0.10);
+            this.dataGridView1.Columns[8].Width = (int)(this.dataGridView1.Width * 0.15);
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)

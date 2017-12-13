@@ -155,6 +155,7 @@ namespace ConfigCode
             起始位,
             位长度,
             CANID,
+            精度,
             偏移量,
             备注
 
@@ -769,7 +770,9 @@ namespace ConfigCode
                         //dataCount = 0;
                         continue;
                     }
-
+                    if (name.Equals("精度")) {
+                        continue;
+                    }
                     string str = dt.Rows[i][name].ToString().Replace(" ",null);
                     if (name.Equals("偏移量"))
                     {
@@ -1039,6 +1042,7 @@ namespace ConfigCode
                     dt.Rows[i]["起始位"] = null;
                     dt.Rows[i]["备注"] = null;
                     dt.Rows[i]["位长度"] = null;
+                    dt.Rows[i]["精度"] = null;
                     dt.Rows[i]["偏移量"] = null;
 
 
@@ -1120,7 +1124,21 @@ namespace ConfigCode
                     }
 
 
+                    string accuracy= sourceDt.Rows[sdt_rowsNum]["精度"].ToString().Replace(" ", null);
+                    accuracy = GetNumber(accuracy);
+                    if (accuracy == "" || accuracy == null) {
+                        if (CANID =="0")
+                        {
+                            accuracy = "0";
+                        }
+                        else {
+                            accuracy = "1";
 
+                        }
+
+                        
+                    }
+                    dt.Rows[i]["精度"] = accuracy;
 
 
                     string offset = sourceDt.Rows[sdt_rowsNum]["偏移量"].ToString().Replace(" ", null);
@@ -1139,8 +1157,10 @@ namespace ConfigCode
                 else if (description.Equals("制动力状态"))
                 {
                     sdt_rowsNum = sourceDt_row_num["档位信息"];
-                    dt.Rows[i]["CANID"] = sourceDt.Rows[sdt_rowsNum]["CANID"].ToString().Replace(" ", null);
-                    dt.Rows[i]["排列格式"] = sourceDt.Rows[sdt_rowsNum]["排列格式(MOTOROLA/INTEL)"].ToString().ToUpper().Replace(" ", null);
+                    dt.Rows[i]["CANID"] = dt.Rows[i - 1]["CANID"];
+                    dt.Rows[i]["排列格式"] = dt.Rows[i - 1]["排列格式"];
+                    //dt.Rows[i]["CANID"] = sourceDt.Rows[sdt_rowsNum]["CANID"].ToString().Replace(" ", null);
+                    //dt.Rows[i]["排列格式"] = sourceDt.Rows[sdt_rowsNum]["排列格式(MOTOROLA/INTEL)"].ToString().ToUpper().Replace(" ", null);
                     string startByte = sourceDt.Rows[sdt_rowsNum]["起始字节(从0开始)"].ToString().Replace(" ", null);
                     startByte = startByte.ToUpper();
                     if (startByte.Contains("BYTE"))
@@ -1150,13 +1170,16 @@ namespace ConfigCode
                     dt.Rows[i]["起始字节"] = startByte;
                     dt.Rows[i]["起始位"] = 4;
                     dt.Rows[i]["位长度"] = 1;
+                    dt.Rows[i]["精度"] = 1;
                     dt.Rows[i]["偏移量"] = 0;
                 }
                 else if (description.Equals("驱动力状态"))
                 {
                     sdt_rowsNum = sourceDt_row_num["档位信息"];
-                    dt.Rows[i]["CANID"] = sourceDt.Rows[sdt_rowsNum]["CANID"].ToString().Replace(" ", null);
-                    dt.Rows[i]["排列格式"] = sourceDt.Rows[sdt_rowsNum]["排列格式(MOTOROLA/INTEL)"].ToString().ToUpper().Replace(" ", null);
+                    dt.Rows[i]["CANID"] = dt.Rows[i - 2]["CANID"];
+                    dt.Rows[i]["排列格式"] = dt.Rows[i - 2]["排列格式"];
+                    //dt.Rows[i]["CANID"] = sourceDt.Rows[sdt_rowsNum]["CANID"].ToString().Replace(" ", null);
+                    //dt.Rows[i]["排列格式"] = sourceDt.Rows[sdt_rowsNum]["排列格式(MOTOROLA/INTEL)"].ToString().ToUpper().Replace(" ", null);
                     string startByte = sourceDt.Rows[sdt_rowsNum]["起始字节(从0开始)"].ToString().Replace(" ", null);
                     startByte = startByte.ToUpper();
                     if (startByte.Contains("BYTE"))
@@ -1166,6 +1189,7 @@ namespace ConfigCode
                     dt.Rows[i]["起始字节"] = startByte;
                     dt.Rows[i]["起始位"] = 5;
                     dt.Rows[i]["位长度"] = 1;
+                    dt.Rows[i]["精度"] = 1;
                     dt.Rows[i]["偏移量"] = 0;
                 }
                 else {
@@ -1175,6 +1199,7 @@ namespace ConfigCode
                     dt.Rows[i]["起始位"] = 0;
                     dt.Rows[i]["位长度"] = 0;
                     dt.Rows[i]["CANID"] = 0;
+                    dt.Rows[i]["精度"] = 0;
                     dt.Rows[i]["偏移量"] = 0;
                     dt.Rows[i]["备注"] = "未找到该项目";
 
@@ -1200,6 +1225,21 @@ namespace ConfigCode
             }
 
         }
+        public static string GetNumber(string source) {
+
+            //string source= "47.64483, -122.141197";
+            //Regex reg = new Regex(@"-?[\d]+.?[\d]+");
+            Regex reg = new Regex(@"(\d+(\.\d+)?)");
+            Match mm = reg.Match(source);
+            MatchCollection mc = reg.Matches(source);
+            //foreach (Match m in mc)
+            //{
+            //    MessageBox.Show(m.Value);
+            //}
+            string number = mm.Groups[0].Value;
+            return number;
+        }
+        
         //public Boolean isNumeric(String str)
         //{
         //    Pattern pattern = Pattern.compile("[0-9]*");
