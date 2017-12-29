@@ -790,7 +790,7 @@ namespace ConfigCode
                             p_offset = 0;
 
                         }
-                        if (p_offset != 0) {
+                        //if (p_offset != 0) {
                             int n_offset = 0;
 
                             double p_precision= Convert.ToDouble(dt.Rows[i]["精度"]);
@@ -804,10 +804,11 @@ namespace ConfigCode
 
                                 n_offset = 0;
                             }
-                           
+
                             double n_precision = precision[DataName];
                              r_offset = p_offset / p_precision - n_offset / n_precision;
-                        }
+
+                        //}
                         //int r_offset = 0;
                         //if (offset.ContainsKey((string)dt.Rows[i]["数据项目名称"]))
                         //{
